@@ -3,6 +3,26 @@ import pandas as pd
 from prophet import Prophet
 import matplotlib.pyplot as plt
 
+# CSS ile Arka Plan ve Kenarları Özelleştirme
+st.markdown(
+    """
+    <style>
+    body {
+        background-color: #f0f0f0; /* Gri arka plan */
+    }
+    .stApp {
+        border: 20px solid #21395E; /* Lacivert kenar */
+        border-radius: 20px;
+        padding: 20px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Görsel Ekleme
+st.image("/workspaces/blank-app/goldberg.png", use_container_width=True)
+
 # Streamlit Başlığı
 st.title("Zaman Serisi Tahmini")
 
@@ -16,6 +36,11 @@ if uploaded_file:
     # Veri Gözden Geçirme
     st.write("Yüklenen Veri:")
     st.write(df.head())
+
+     # Eksik Değerleri Kontrol Etme
+    st.write("Eksik Değerler:")
+    st.write(df.isna().sum())  # Her sütunda kaç eksik değer olduğunu gösterir
+
 
     # İstenmeyen sütunları kaldırma
     columns_to_keep = ['satis_fiyati', 'kar', 'kar_orani', 'urun_grubu', 'teslim_tarihi', 'siparis_tarihi']
@@ -61,7 +86,6 @@ if uploaded_file:
     # Outlier olan satışları yarıya indirme
     df_no_outliers = df.copy()
     df_no_outliers.loc[df_no_outliers["y"] > upper_limit, "y"] = df_no_outliers["y"] / 2
-
 
     # Regresör Listesi
     regressors = ['AMELİYAT MASASI', 'HİDROJEN PEROKSİT', 'KARTUŞ', 
