@@ -36,7 +36,7 @@ if uploaded_file:
     # Veri Gözden Geçirme
     st.write("Yüklenen Veri:")
     st.write(df.head())
-    
+
      # Eksik Değerleri Kontrol Etme
     st.write("Eksik Değerler:")
     st.write(df.isna().sum())  # Her sütunda kaç eksik değer olduğunu gösterir
