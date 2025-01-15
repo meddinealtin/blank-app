@@ -21,7 +21,7 @@ st.markdown(
 )
 
 # Görsel Ekleme
-st.image("/workspaces/blank-app/goldberg.png", use_container_width=True)
+st.image("/workspaces/blank-app/Asset-7GOLDBERGMEDLOG-WHITE.png", use_container_width=True)
 
 # Streamlit Başlığı
 st.title("Zaman Serisi Tahmini")
