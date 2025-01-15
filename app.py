@@ -3,25 +3,67 @@ import pandas as pd
 from prophet import Prophet
 import matplotlib.pyplot as plt
 
-# CSS ile Arka Plan ve Kenarları Özelleştirme
 st.markdown(
     """
     <style>
-    body {
-        background-color: #f0f0f0; /* Gri arka plan */
-    }
     .stApp {
-        border: 20px solid #21395E; /* Lacivert kenar */
-        border-radius: 20px;
-        padding: 20px;
+        background-color: #FCFBFB;  /* Sayfanın arka plan rengi */
+    }
+    .header-box {
+        background-color: #21395E;  /* Görselin arkasındaki kutunun rengi */
+        padding: 20px;  /* Kutunun etrafına boşluk eklemek için */
+        text-align: center;  /* Görseli kutuda ortalamak için */
+    }
+    .header-img {
+        width: 100%;  /* Görselin genişliğini sayfa ile uyumlu yap */
+        max-height: 150px;  /* Görselin yüksekliğini sınırla */
+        object-fit: contain;  /* Görselin doğru şekilde görünmesi için */
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Görsel Ekleme
-st.image("/workspaces/blank-app/Asset-7GOLDBERGMEDLOG-WHITE.png", use_container_width=True)
+# Görseli başa yerleştirip kutuya yerleştirme
+st.markdown('<div class="header-box"><img class="header-img" src="https://goldbergmed.com/wp-content/uploads/Asset-7GOLDBERGMEDLOG-WHITE.png"></div>', unsafe_allow_html=True)
+
+# CSS ile yan taraf not kutusu ekleme
+st.markdown(
+    """
+    <style>
+    .sidebar-notes {
+        background-color: #FCFBFB;
+        border-left: 15px solid #21395E;
+        padding: 30px;
+        font-size: 20px;
+        line-height: 1.5;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Not Kutusu
+st.sidebar.markdown(
+    """
+    <div class="sidebar-notes">
+    <b>Kullanım İpuçları:</b><br><br>
+    - Tahmin yapmak için bir <b>CSV dosyası</b> yükleyin.<br><br>
+    - Tarih bilgisini içeren sütunu seçin 
+      <span style="font-size: 14px; color: gray;">(örneğin: teslim_tarihi)</span>.<br><br>
+    - Analiz etmek istediğiniz değeri seçin 
+      <span style="font-size: 14px; color: gray;">(örneğin: satış_fiyatı, kar)</span>.<br><br>
+    - Tahmin sonuçlarını incelemek için grafikleri görüntüleyin.<br><br>
+    - Veri ve tahmin sonuçlarını karşılaştırarak daha iyi kararlar alın.<br><br>
+
+    <hr style="border: none; border-top: 1px solid #ccc; margin: 15px 0;">
+    <span style="font-size: 14px; color: gray;">
+    *Not: Veriler, teslim tarihi sipariş tarihinin maksimum değerinden büyük olmayacak şekilde filtrelenmiştir.
+    </span>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # Streamlit Başlığı
 st.title("Zaman Serisi Tahmini")
@@ -37,18 +79,18 @@ if uploaded_file:
     st.write("Yüklenen Veri:")
     st.write(df.head())
 
-     # Eksik Değerleri Kontrol Etme
-    st.write("Eksik Değerler:")
-    st.write(df.isna().sum())  # Her sütunda kaç eksik değer olduğunu gösterir
-
-
     # İstenmeyen sütunları kaldırma
     columns_to_keep = ['satis_fiyati', 'kar', 'kar_orani', 'urun_grubu', 'teslim_tarihi', 'siparis_tarihi']
     df = df[columns_to_keep]
 
     # Tarih ve Değer Sütunlarını Seçme
-    date_column = st.selectbox("Tarih sütununu seçin:", df.columns)
-    value_column = st.selectbox("Değer sütununu seçin:", [col for col in df.columns if col != date_column])
+    col1, col2 = st.columns(2)  # İki sütun oluşturuluyor
+
+    with col1:
+        date_column = st.selectbox("Tarih sütununu seçin:", df.columns)
+
+    with col2:
+        value_column = st.selectbox("Değer sütununu seçin:", [col for col in df.columns if col != date_column])
 
     # Ek Tarih Kontrolü (Sipariş ve Teslim Tarihi)
     if "siparis_tarihi" in df.columns and "teslim_tarihi" in df.columns:
@@ -127,3 +169,4 @@ if uploaded_file:
     # Sezonluk Bileşenlerin Görselleştirilmesi
     fig2 = model.plot_components(forecast)
     st.pyplot(fig2)
+
