@@ -49,10 +49,10 @@ st.sidebar.markdown(
     <div class="sidebar-notes">
     <b>Kullanım İpuçları:</b><br><br>
     - Tahmin yapmak için bir <b>CSV dosyası</b> yükleyin.<br><br>
-    - Tarih bilgisini içeren sütunu seçin 
-      <span style="font-size: 14px; color: gray;">(örneğin: teslim_tarihi)</span>.<br><br>
-    - Analiz etmek istediğiniz değeri seçin 
-      <span style="font-size: 14px; color: gray;">(örneğin: satış_fiyatı, kar)</span>.<br><br>
+    - Tarih bilgisini içeren sütunu seçin. 
+      <span style="font-size: 14px; color: gray;">(örneğin: teslim_tarihi)</span><br><br>
+    - Analiz etmek istediğiniz değeri seçin.
+      <span style="font-size: 14px; color: gray;">(örneğin: satış_fiyatı, kar)</span><br><br>
     - Tahmin sonuçlarını incelemek için grafikleri görüntüleyin.<br><br>
     - Veri ve tahmin sonuçlarını karşılaştırarak daha iyi kararlar alın.<br><br>
 
